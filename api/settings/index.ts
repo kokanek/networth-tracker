@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getDb } from '../_lib/mongodb.js';
+import { requireAuth } from '../_lib/auth.js';
 import type { GrowthRates } from '../_lib/types.js';
 
 const DEFAULT_GROWTH_RATES: GrowthRates = {
@@ -10,6 +11,8 @@ const DEFAULT_GROWTH_RATES: GrowthRates = {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (!requireAuth(req, res)) return;
+
   const user = (req.query.user as string) || 'kapeel';
   const collection = (await getDb()).collection('settings');
 

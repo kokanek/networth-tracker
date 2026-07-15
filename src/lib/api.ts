@@ -1,9 +1,15 @@
 import type { Asset, GrowthRates, Settings, Snapshot } from '@/types';
+import { getAuthToken } from '@/lib/auth';
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
+  const token = getAuthToken();
   const res = await fetch(url, {
-    headers: { 'Content-Type': 'application/json' },
     ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options?.headers,
+    },
   });
   if (!res.ok) {
     const message = await res.text().catch(() => res.statusText);

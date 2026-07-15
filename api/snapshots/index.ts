@@ -1,8 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getDb } from '../_lib/mongodb.js';
+import { requireAuth } from '../_lib/auth.js';
 import type { Asset } from '../_lib/types.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (!requireAuth(req, res)) return;
+
   const user = (req.query.user as string) || 'kapeel';
   const collection = (await getDb()).collection(`snapshots_${user}`);
 
