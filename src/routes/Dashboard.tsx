@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useSnapshotStore } from '@/stores/snapshotStore';
-import { useSettingsStore } from '@/stores/settingsStore';
 import { useUserStore } from '@/stores/userStore';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { NetWorthChart } from '@/components/chart/NetWorthChart';
@@ -10,13 +9,11 @@ import { SnapshotForm } from '@/components/snapshot/SnapshotForm';
 export function Dashboard() {
   const { activeUser } = useUserStore();
   const snapshotStore = useSnapshotStore();
-  const settingsStore = useSettingsStore();
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     snapshotStore.fetch(activeUser);
-    settingsStore.fetch(activeUser);
   }, [activeUser]);
 
   const selectedSnapshot = snapshotStore.snapshots.find((s) => s._id === snapshotStore.selectedId) ?? null;

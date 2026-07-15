@@ -1,5 +1,3 @@
-export type AssetType = 'real_estate' | 'gold' | 'stocks' | 'mutual_funds';
-
 export type AssetCategory = 'fixed_rate' | 'equity' | 'retirals';
 
 export interface Asset {
@@ -16,18 +14,4 @@ export interface Snapshot {
   totalNetWorth: number;
   createdAt: string;
   updatedAt: string;
-}
-
-export interface GrowthRates {
-  real_estate: number;
-  gold: number;
-  stocks: number;
-  mutual_funds: number;
-}
-
-export interface Settings {
-  _id?: string;
-  userId: string;
-  growthRates: GrowthRates;
-  updatedAt?: string;
 }

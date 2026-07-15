@@ -12,6 +12,3 @@ const APP_PREFIX = 'networth';
 
 /** Redis key holding the array of snapshots for a user, e.g. `networth:kapeel`. */
 export const snapshotsKey = (user: string): string => `${APP_PREFIX}:${user}`;
-
-/** Redis key holding the settings object for a user, e.g. `networth:kapeel:settings`. */
-export const settingsKey = (user: string): string => `${APP_PREFIX}:${user}:settings`;

@@ -1,25 +1,4 @@
-import type { AssetType, AssetCategory, GrowthRates } from '@/types';
-
-export const ASSET_TYPES: { value: AssetType; label: string }[] = [
-  { value: 'real_estate', label: 'Real Estate' },
-  { value: 'gold', label: 'Gold' },
-  { value: 'stocks', label: 'Stocks' },
-  { value: 'mutual_funds', label: 'Mutual Funds' },
-];
-
-export const ASSET_COLORS: Record<AssetType, string> = {
-  real_estate: '#2E7D32',
-  gold: '#F9A825',
-  stocks: '#1565C0',
-  mutual_funds: '#7B1FA2',
-};
-
-export const ASSET_LABELS: Record<AssetType, string> = {
-  real_estate: 'Real Estate',
-  gold: 'Gold',
-  stocks: 'Stocks',
-  mutual_funds: 'Mutual Funds',
-};
+import type { AssetCategory } from '@/types';
 
 export const CATEGORIES: { value: AssetCategory; label: string }[] = [
   { value: 'fixed_rate', label: 'Fixed Rate' },
@@ -63,13 +42,6 @@ export const SUBTYPE_LABELS: Record<string, string> = Object.values(SUBTYPES)
     acc[value] = label;
     return acc;
   }, {});
-
-export const DEFAULT_GROWTH_RATES: GrowthRates = {
-  real_estate: 8,
-  gold: 10,
-  stocks: 12,
-  mutual_funds: 12,
-};
 
 export const TIME_RANGES = [
   { label: '1M', months: 1 },

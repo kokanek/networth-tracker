@@ -1,4 +1,4 @@
-import type { Asset, GrowthRates, Settings, Snapshot } from '@/types';
+import type { Asset, Snapshot } from '@/types';
 import { getAuthToken } from '@/lib/auth';
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
@@ -37,14 +37,5 @@ export const api = {
   deleteSnapshot: (user: string, id: string): Promise<{ success: boolean }> =>
     request(`/api/snapshots/${encodeURIComponent(id)}?user=${encodeURIComponent(user)}`, {
       method: 'DELETE',
-    }),
-
-  getSettings: (user: string): Promise<Settings> =>
-    request(`/api/settings?user=${encodeURIComponent(user)}`),
-
-  updateSettings: (user: string, growthRates: GrowthRates): Promise<Settings> =>
-    request(`/api/settings?user=${encodeURIComponent(user)}`, {
-      method: 'PUT',
-      body: JSON.stringify({ growthRates }),
     }),
 };

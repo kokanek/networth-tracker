@@ -17,16 +17,3 @@ export interface Snapshot {
   createdAt: string;
   updatedAt: string;
 }
-
-export interface GrowthRates {
-  real_estate: number;
-  gold: number;
-  stocks: number;
-  mutual_funds: number;
-}
-
-export interface Settings {
-  userId: string;
-  growthRates: GrowthRates;
-  updatedAt?: string;
-}
