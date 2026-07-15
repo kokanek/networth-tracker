@@ -10,12 +10,12 @@ export interface Asset {
 }
 
 export interface Snapshot {
-  _id?: string;
+  _id: string;
   date: string;
   assets: Asset[];
   totalNetWorth: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface GrowthRates {
@@ -26,8 +26,7 @@ export interface GrowthRates {
 }
 
 export interface Settings {
-  _id?: string;
   userId: string;
   growthRates: GrowthRates;
-  updatedAt?: Date;
+  updatedAt?: string;
 }
