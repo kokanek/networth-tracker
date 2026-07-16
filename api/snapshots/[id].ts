@@ -6,7 +6,7 @@ import type { Asset, Snapshot } from '../_lib/types.js';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!requireAuth(req, res)) return;
 
-  const user = (req.query.user as string) || 'kapeel';
+  const user = (req.query.user as string) || 'Kapeel';
   const id = req.query.id as string;
   const key = snapshotsKey(user);
 

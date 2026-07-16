@@ -51,5 +51,5 @@ export const TIME_RANGES = [
   { label: 'ALL', months: 0 },
 ] as const;
 
-export const USERS = ['kapeel', 'wife'] as const;
+export const USERS = ['Kapeel', 'Shail'] as const;
 export type User = (typeof USERS)[number];

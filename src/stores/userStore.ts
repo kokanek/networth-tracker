@@ -7,6 +7,6 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>((set) => ({
-  activeUser: 'kapeel',
+  activeUser: 'Kapeel',
   setActiveUser: (activeUser) => set({ activeUser }),
 }));
