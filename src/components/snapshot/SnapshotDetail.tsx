@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useSnapshotStore } from '@/stores/snapshotStore';
-import { CATEGORIES, CATEGORY_COLORS, CATEGORY_LABELS, SUBTYPE_LABELS } from '@/lib/constants';
+import { CATEGORIES, CATEGORY_COLORS, CATEGORY_LABELS, SUBTYPE_LABELS, DEBT_FROM_EQUITY_COLOR } from '@/lib/constants';
 import { formatINRFull, formatDateFull } from '@/lib/utils';
 import type { AssetCategory } from '@/types';
 
@@ -26,6 +26,40 @@ export function SnapshotDetail({ onEdit, onDelete }: Props) {
     })).filter((c) => c.total > 0);
   }, [snapshot]);
 
+  // Pie-chart-only override: balance advantage funds (in equity) are treated as
+  // 70% equity / 30% debt. The BA-derived debt is shown as a separate slice with
+  // a distinct shade of gray. The detailed breakdown below stays unmodified.
+  const chartTotals = useMemo(() => {
+    if (!snapshot) return [];
+    const babValue = snapshot.assets
+      .filter((a) => a.category === 'equity' && a.subtype === 'balance_advantage_funds')
+      .reduce((sum, a) => sum + a.value, 0);
+    const debtShift = babValue * 0.3;
+    const slices = CATEGORIES.map(({ value, label }) => {
+      let total = snapshot.assets
+        .filter((a) => a.category === value)
+        .reduce((sum, a) => sum + a.value, 0);
+      if (value === 'equity') total -= debtShift;
+      return {
+        key: value,
+        category: value,
+        label,
+        total,
+        color: CATEGORY_COLORS[value],
+      };
+    });
+    if (debtShift > 0) {
+      slices.push({
+        key: 'debt_from_equity',
+        category: 'debt',
+        label: 'Debt (from BA fund)',
+        total: debtShift,
+        color: DEBT_FROM_EQUITY_COLOR,
+      });
+    }
+    return slices.filter((c) => c.total > 0);
+  }, [snapshot]);
+
   if (!snapshot) {
     return (
       <div className="bg-white rounded-xl border border-gray-200 p-6 flex items-center justify-center h-full">
@@ -45,7 +79,7 @@ export function SnapshotDetail({ onEdit, onDelete }: Props) {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={categoryTotals}
+              data={chartTotals}
               dataKey="total"
               nameKey="label"
               cx="50%"
@@ -54,8 +88,8 @@ export function SnapshotDetail({ onEdit, onDelete }: Props) {
               outerRadius={90}
               paddingAngle={2}
             >
-              {categoryTotals.map((c) => (
-                <Cell key={c.category} fill={CATEGORY_COLORS[c.category as AssetCategory]} />
+              {chartTotals.map((c) => (
+                <Cell key={c.key} fill={c.color} />
               ))}
             </Pie>
           </PieChart>
@@ -63,9 +97,9 @@ export function SnapshotDetail({ onEdit, onDelete }: Props) {
       </div>
 
       <div className="mt-2 flex flex-wrap justify-center gap-4">
-        {categoryTotals.map((c) => (
-          <div key={c.category} className="flex items-center gap-1.5 text-xs text-gray-600">
-            <div className="w-2.5 h-2.5 rounded-sm" style={{ background: CATEGORY_COLORS[c.category as AssetCategory] }} />
+        {chartTotals.map((c) => (
+          <div key={c.key} className="flex items-center gap-1.5 text-xs text-gray-600">
+            <div className="w-2.5 h-2.5 rounded-sm" style={{ background: c.color }} />
             {c.label}
             <span className="font-medium text-gray-900">
               {snapshot.totalNetWorth > 0 ? Math.round((c.total / snapshot.totalNetWorth) * 100) : 0}%

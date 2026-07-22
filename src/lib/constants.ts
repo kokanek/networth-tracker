@@ -4,18 +4,25 @@ export const CATEGORIES: { value: AssetCategory; label: string }[] = [
   { value: 'fixed_rate', label: 'Fixed Rate' },
   { value: 'equity', label: 'Equity' },
   { value: 'retirals', label: 'Retirals' },
+  { value: 'debt', label: 'Debt' },
 ];
 
 export const CATEGORY_COLORS: Record<AssetCategory, string> = {
   fixed_rate: '#1565C0', // blue
   equity: '#F9A825', // yellow
   retirals: '#2E7D32', // green
+  debt: '#757575', // gray
 };
+
+// Shade of gray used only in the pie chart for the debt component derived from
+// equity balance advantage funds, to distinguish it from explicitly invested debt.
+export const DEBT_FROM_EQUITY_COLOR = '#BDBDBD'; // lighter gray
 
 export const CATEGORY_LABELS: Record<AssetCategory, string> = {
   fixed_rate: 'Fixed Rate',
   equity: 'Equity',
   retirals: 'Retirals',
+  debt: 'Debt',
 };
 
 export const SUBTYPES: Record<AssetCategory, { value: string; label: string }[]> = {
@@ -33,6 +40,10 @@ export const SUBTYPES: Record<AssetCategory, { value: string; label: string }[]>
   retirals: [
     { value: 'provident_fund', label: 'Provident fund' },
     { value: 'npf', label: 'NPF' },
+  ],
+  debt: [
+    { value: 'liquid_fund', label: 'Liquid fund' },
+    { value: 'bonds', label: 'Bonds' },
   ],
 };
 

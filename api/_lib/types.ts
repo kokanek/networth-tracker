@@ -1,6 +1,6 @@
 export type AssetType = 'real_estate' | 'gold' | 'stocks' | 'mutual_funds';
 
-export type AssetCategory = 'fixed_rate' | 'equity' | 'retirals';
+export type AssetCategory = 'fixed_rate' | 'equity' | 'retirals' | 'debt';
 
 export interface Asset {
   category: AssetCategory;
